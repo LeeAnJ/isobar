@@ -1,0 +1,4 @@
+ctREFPROP~=0.10.2
+prettytable~=3.2.0
+numpy~=1.23.1
+scipy~=1.9.0
