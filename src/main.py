@@ -62,6 +62,8 @@ t_random = []
 for i in range(1000):
     rand = random.uniform(t_min_k, t_max_k)
     t_random.append(rand)
+    # print(i, t_random[i])
+# sys.exit()
 
 tau_range = 100
 t_range = 100
@@ -77,7 +79,7 @@ err_sum = 0
 # for j in range(tau_range):
 for i in range(t_range):
     # start = timeit.default_timer()
-    # _h = p_high.get_h_jmol_with_linear_interpolation(t_k=t_random[i])
+    _h = p_high.get_h_jmol_with_linear_interpolation(t_k=t_random[i])
     __h = p_high.get_h_jmol_with_refprop10(t_k=t_random[i])
     ___h = p_high.get_h_jmol_with_cubic_spline(t_k=t_random[i])
 
@@ -89,7 +91,7 @@ for i in range(t_range):
         err_max = err
     err_sum += err
 
-    print(t_random[i], err)
+    print(t_random[i],_h)
 err_avr = err_sum/t_range
 print(err_avr)
 

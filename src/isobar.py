@@ -46,6 +46,10 @@ class Isobar:
         self.t_bubble_k, self.h_bubble_jmol = self._bubble_point()
         self.t_dew_k, self.h_dew_jmol = self._dew_point()
 
+        self.set_optional_t_for_bubble_point(n_1ph=2, n_2ph=3, dt=3.0)
+        self.set_optional_t_for_dew_point(n_1ph=2, n_2ph=3, dt=3.0)
+        sys.exit()
+
         self._insert_bubble_point()
         self._insert_dew_point()
 
@@ -113,6 +117,16 @@ class Isobar:
             self.array_n += 1
             self.t_k = np.insert(self.t_k, index, self.t_dew_k)
             self.h_jmol = np.insert(self.h_jmol, index, self.h_dew_jmol)
+
+    def set_optional_t_for_bubble_point(self, n_1ph: int, n_2ph: int, dt: float) -> None:
+        t_k = [(lambda i: self.t_bubble_k + dt*i)(i) for i in range(-n_1ph, 0)] + \
+              [(lambda i: self.t_bubble_k + dt * i)(i) for i in range(1, n_2ph+1)]
+        print(t_k)
+
+    def set_optional_t_for_dew_point(self, n_1ph: int, n_2ph: int, dt: float) -> None:
+        t_k = [(lambda i: self.t_dew_k + dt*i)(i) for i in range(-n_2ph, 0)] + \
+              [(lambda i: self.t_dew_k + dt * i)(i) for i in range(1, n_1ph+1)]
+        print(t_k)
 
     def get_h_jmol_with_linear_interpolation(self, t_k: float) -> float:
         if t_k < self.t_min_k or t_k > self.t_max_k:
